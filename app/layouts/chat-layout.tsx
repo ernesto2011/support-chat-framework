@@ -4,7 +4,7 @@ import { ChatList } from "~/chat/components/ChatList";
 import { ContactInfo } from "~/chat/components/contact-details/ContactInfo";
 import { Button } from "~/components/ui/button";
 
-export default function ChatLayout({ children }: { children: React.ReactNode }) {
+export default function ChatLayout() {
     return (
       <div className="flex h-screen bg-background">
         {/* Sidebar */}
