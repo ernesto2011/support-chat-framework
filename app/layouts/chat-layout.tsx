@@ -1,4 +1,4 @@
-import { X } from "lucide-react";
+import { LogOut, X } from "lucide-react";
 import { Outlet } from "react-router";
 import { ChatList } from "~/chat/components/ChatList";
 import { ContactInfo } from "~/chat/components/contact-details/ContactInfo";
@@ -16,6 +16,12 @@ export default function ChatLayout() {
             </div>
           </div>
             <ChatList />
+            <div className="p-4 border-t">
+                <Button variant='ghost' className="w-full hover:bg-gray-200">
+                    <LogOut className="h-4 w-4 mr-2" />
+                    <span>Log out</span>
+                </Button>
+            </div>
         </div>
   
         {/* Main Content */}

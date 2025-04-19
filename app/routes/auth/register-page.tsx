@@ -1,3 +1,4 @@
+import { Link } from "react-router"
 import { Button } from "~/components/ui/button"
 import { Card, CardContent } from "~/components/ui/card"
 import { Input } from "~/components/ui/input"
@@ -78,10 +79,10 @@ const Registerpage = () => {
               </Button>
             </div>
             <div className="text-center text-sm">
-              Do have an account?{" "}
-              <a href="/auth/login" className="underline underline-offset-4">
+              Already have an account? {" "}
+              <Link to="/auth/login" className="underline underline-offset-4">
                 Sign In
-              </a>
+              </Link>
             </div>
           </div>
         </form>
