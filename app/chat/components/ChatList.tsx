@@ -1,4 +1,4 @@
-import { Link } from "react-router"
+import { NavLink } from "react-router"
 import { Button } from "~/components/ui/button"
 import { ScrollArea } from "~/components/ui/scroll-area"
 
@@ -16,12 +16,14 @@ export const ChatList = () => {
             </div>
             G5 Customer
           </Button>
-          <Link to={`/chat/3123423`} className="w-full justify-start">
+          <NavLink to={`/chat/3123423`} className= {({isActive})=>
+            isActive ? "w-full justify-start flex items-center gap-2 ml-4 bg-primary/20 text-primary transition-colors duration-200 rounded-2xl" 
+            : "w-full justify-start flex items-center gap-2 ml-4 hover:bg-primary/10 transition-colors duration-200 rounded-2xl"}>
             <div className="h-6 w-6 rounded-full bg-green-500 mr-2 flex-shrink-0 flex items-center justify-center text-white text-xs">
               JD
             </div>
             John Doe
-          </Link>
+          </NavLink>
           <Button variant="ghost" className="w-full justify-start">
             <div className="h-6 w-6 rounded-full bg-purple-500 mr-2 flex-shrink-0 flex items-center justify-center text-white text-xs">
               AS

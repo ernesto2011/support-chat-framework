@@ -1,7 +1,9 @@
 import { LogOut, X } from "lucide-react";
 import { Outlet } from "react-router";
 import { ChatList } from "~/chat/components/ChatList";
+import { ContactDetails } from "~/chat/components/contact-details/ContactDetails";
 import { ContactInfo } from "~/chat/components/contact-details/ContactInfo";
+import { ContactLoadingSkeleton } from "~/chat/components/contact-details/ContactLoadingSkeleton";
 import { Button } from "~/components/ui/button";
 
 export default function ChatLayout() {
@@ -47,7 +49,7 @@ export default function ChatLayout() {
             <div className="h-14 border-b px-4 flex items-center">
               <h2 className="font-medium">Contact details</h2>
             </div>
-           <ContactInfo />
+           <ContactDetails/>
           </div>
         </div>
       </div>
