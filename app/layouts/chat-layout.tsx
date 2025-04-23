@@ -2,11 +2,17 @@ import { LogOut, X } from "lucide-react";
 import { Outlet } from "react-router";
 import { ChatList } from "~/chat/components/ChatList";
 import { ContactDetails } from "~/chat/components/contact-details/ContactDetails";
-import { ContactInfo } from "~/chat/components/contact-details/ContactInfo";
-import { ContactLoadingSkeleton } from "~/chat/components/contact-details/ContactLoadingSkeleton";
 import { Button } from "~/components/ui/button";
+import { getClients } from "~/fake/fake-data";
+import type { Route } from "./+types/chat-layout";
 
-export default function ChatLayout() {
+export async function loader() {
+  const clients = await getClients()
+  return {clients}
+}
+
+export default function ChatLayout({loaderData}: Route.ComponentProps) {
+    const{ clients} = loaderData
     return (
       <div className="flex h-screen bg-background">
         {/* Sidebar */}
@@ -17,7 +23,7 @@ export default function ChatLayout() {
               <span className="font-semibold">NexTalk</span>
             </div>
           </div>
-            <ChatList />
+            <ChatList clients={clients} />
             <div className="p-4 border-t">
                 <Button variant='ghost' className="w-full hover:bg-gray-200">
                     <LogOut className="h-4 w-4 mr-2" />
@@ -45,7 +51,7 @@ export default function ChatLayout() {
           </div>
   
           {/* Right Panel - Contact Details */}
-          <div className="w-80 border-l">
+          <div className="w-50 lg:w-80 border-l">
             <div className="h-14 border-b px-4 flex items-center">
               <h2 className="font-medium">Contact details</h2>
             </div>

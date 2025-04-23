@@ -1,47 +1,34 @@
 import { NavLink } from "react-router"
 import { Button } from "~/components/ui/button"
 import { ScrollArea } from "~/components/ui/scroll-area"
+import type { Client } from "../interfaces/chat.interface"
 
+interface Props{
+  clients: Client[]
+}
 
-export const ChatList = () => {
+export const ChatList = ({clients}:Props) => {
   return (
     <ScrollArea className="h-[calc(100vh-126px)]">
     <div className="space-y-4 p-4">
       <div className="space-y-1">
         <h3 className="px-2 text-sm font-semibold">Contacts</h3>
         <div className="space-y-1">
-          <Button variant="secondary" className="w-full justify-start">
-            <div className="h-6 w-6 rounded-full bg-blue-500 mr-2 flex-shrink-0 flex items-center justify-center text-white text-xs">
-              G5
-            </div>
-            G5 Customer
-          </Button>
-          <NavLink to={`/chat/3123423`} className= {({isActive})=>
-            isActive ? "w-full justify-start flex items-center gap-2 ml-4 bg-primary/20 text-primary transition-colors duration-200 rounded-2xl" 
-            : "w-full justify-start flex items-center gap-2 ml-4 hover:bg-primary/10 transition-colors duration-200 rounded-2xl"}>
-            <div className="h-6 w-6 rounded-full bg-green-500 mr-2 flex-shrink-0 flex items-center justify-center text-white text-xs">
-              JD
-            </div>
-            John Doe
-          </NavLink>
-          <Button variant="ghost" className="w-full justify-start">
-            <div className="h-6 w-6 rounded-full bg-purple-500 mr-2 flex-shrink-0 flex items-center justify-center text-white text-xs">
-              AS
-            </div>
-            Alice Smith
-          </Button>
-          <Button variant="ghost" className="w-full justify-start">
-            <div className="h-6 w-6 rounded-full bg-yellow-500 mr-2 flex-shrink-0 flex items-center justify-center text-white text-xs">
-              RJ
-            </div>
-            Robert Johnson
-          </Button>
-          <Button variant="ghost" className="w-full justify-start">
-            <div className="h-6 w-6 rounded-full bg-pink-500 mr-2 flex-shrink-0 flex items-center justify-center text-white text-xs">
-              EW
-            </div>
-            Emma Wilson
-          </Button>
+        {
+          clients.map(client =>(
+            <NavLink key={client.id} to={`/chat/${client.id}`} className= {({isActive})=>
+              isActive ? "w-full justify-start flex items-center gap-2 ml-4 bg-primary/20 text-primary transition-colors duration-200 rounded-2xl" 
+              : "w-full justify-start flex items-center gap-2 ml-4 hover:bg-primary/10 transition-colors duration-200 rounded-2xl"}>
+              <div className={`h-6 w-6 rounded-full bg-${client.color}-500 mr-2 flex-shrink-0 flex items-center justify-center text-white text-xs`}>	
+                {client.name.charAt(0).toUpperCase()
+                +client.name.charAt(client.name.indexOf(' ')+1).toUpperCase()}
+              </div>
+              {client.name}
+            </NavLink>
+          ))
+        }
+
+         
         </div>
       </div>
       <div className="pt-4 border-t mt-4">
