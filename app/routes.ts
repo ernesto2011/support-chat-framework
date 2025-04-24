@@ -12,6 +12,7 @@ export default [
     layout("layouts/auth-layout.tsx", [
       route("login", "routes/auth/login-page.tsx"),
       route("register", "routes/auth/register-page.tsx"),
+      route('logout', 'auth/actions/logout.action.ts'),
     ]),
   ]),
   ...prefix("/chat", [
