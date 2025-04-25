@@ -1,5 +1,5 @@
 import { LogOut, X } from "lucide-react";
-import { Form, Outlet, redirect } from "react-router";
+import { Form, Link, Outlet, redirect } from "react-router";
 import { ChatList } from "~/chat/components/ChatList";
 import { ContactDetails } from "~/chat/components/contact-details/ContactDetails";
 import { Button } from "~/components/ui/button";
@@ -9,16 +9,17 @@ import { getSession } from "~/sessions.server";
 
 export async function loader({request}:Route.LoaderArgs) {
   const session= await getSession(request.headers.get("Cookie"));
+  const userName = session.get("name")
   if(!session.has("userId")){
     return redirect("/auth/login")
 
   }
   const clients = await getClients()
-  return {clients}
+  return {clients, userName}
 }
 
 export default function ChatLayout({loaderData}: Route.ComponentProps) {
-    const{ clients} = loaderData
+    const{ clients, userName} = loaderData
     return (
       <div className="flex h-screen bg-background">
         {/* Sidebar */}
@@ -26,7 +27,7 @@ export default function ChatLayout({loaderData}: Route.ComponentProps) {
           <div className="p-4 border-b">
             <div className="flex items-center gap-2">
               <div className="h-6 w-6 rounded-full bg-primary" />
-              <span className="font-semibold">NexTalk</span>
+              <Link to='/chat' className="font-semibold">{userName || 'NexTalk'}</Link>
             </div>
           </div>
             <ChatList clients={clients} />
