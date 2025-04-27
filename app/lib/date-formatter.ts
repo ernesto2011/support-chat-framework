@@ -13,6 +13,9 @@ export const formatDateTime = (date: Date) => {
     const hours = Math.floor(diff / 3600000);
     const days = Math.floor(diff / 86400000);
 
+    if (minutes < 1) {
+        return 'hace un momento';
+    }
     if (minutes < 60) {
         return `hace ${minutes} ${minutes === 1 ? 'minuto' : 'minutos'}`;
     } else if (hours < 24) {

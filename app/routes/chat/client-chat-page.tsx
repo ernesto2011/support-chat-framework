@@ -5,13 +5,32 @@ import { ScrollArea } from "~/components/ui/scroll-area"
 import { Button } from "~/components/ui/button"
 import { Textarea } from "~/components/ui/textarea"
 import type { Route } from "./+types/client-chat-page"
-import { getClientMessages } from "~/fake/fake-data"
+import { getClientMessages, sendMessage } from "~/fake/fake-data"
 import { formatDateTime } from "~/lib/date-formatter"
+import { Form } from "react-router"
+
+import type { ShouldRevalidateFunctionArgs } from "react-router";
+
+// export function shouldRevalidate(
+//   arg: ShouldRevalidateFunctionArgs
+// ) {
+//   return false;
+// }
 
 export async function loader({params}:Route.LoaderArgs){
   const {clientId} = params
   const messages = await getClientMessages(clientId)
   return {messages}
+}
+export async function action({request, params}:Route.ActionArgs){
+  const formData = await request.formData()
+  const message = formData.get("message")
+  const newMessage = await sendMessage({
+    sender: 'agent',
+    content: message as string,
+    clientId: params.clientId,
+    createdAt: new Date()
+  })
 }
 export default function ClientChatPage({loaderData}:Route.ComponentProps) {
   const [input, setInput] = useState("")
@@ -77,20 +96,21 @@ export default function ClientChatPage({loaderData}:Route.ComponentProps) {
         }
         </div>
       </ScrollArea>
-      <div className="p-4 border-t">
+      <Form method="post" className="p-4 border-t">
         <div className="flex items-center gap-2">
           <Textarea
             placeholder="Type a message as a customer"
             value={input}
             onChange={(e) => setInput(e.target.value)}
             className="min-h-[44px] h-[44px] resize-none py-3"
+            name="message"
           />
-          <Button className="h-[44px] px-4 flex items-center gap-2">
+          <Button type="submit" className="h-[44px] px-4 flex items-center gap-2">
             <Send className="h-4 w-4" />
             <span>Send</span>
           </Button>
         </div>
-      </div>
+      </Form>
     </div>
   )
 }

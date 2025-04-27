@@ -3,23 +3,29 @@ import { Form, Link, Outlet, redirect } from "react-router";
 import { ChatList } from "~/chat/components/ChatList";
 import { ContactDetails } from "~/chat/components/contact-details/ContactDetails";
 import { Button } from "~/components/ui/button";
-import { getClients } from "~/fake/fake-data";
+import { getClient, getClients } from "~/fake/fake-data";
 import type { Route } from "./+types/chat-layout";
 import { getSession } from "~/sessions.server";
 
-export async function loader({request}:Route.LoaderArgs) {
+export async function loader({request, params}:Route.LoaderArgs) {
   const session= await getSession(request.headers.get("Cookie"));
   const userName = session.get("name")
+  const {clientId} = params
   if(!session.has("userId")){
     return redirect("/auth/login")
 
   }
   const clients = await getClients()
+  if(clientId){
+    const client= await getClient(clientId)
+    return {client, clients, userName}
+  }
+
   return {clients, userName}
 }
 
 export default function ChatLayout({loaderData}: Route.ComponentProps) {
-    const{ clients, userName} = loaderData
+    const{ client, clients, userName} = loaderData
     return (
       <div className="flex h-screen bg-background">
         {/* Sidebar */}
@@ -62,7 +68,7 @@ export default function ChatLayout({loaderData}: Route.ComponentProps) {
             <div className="h-14 border-b px-4 flex items-center">
               <h2 className="font-medium">Contact details</h2>
             </div>
-           <ContactDetails/>
+           <ContactDetails client={client}/>
           </div>
         </div>
       </div>
